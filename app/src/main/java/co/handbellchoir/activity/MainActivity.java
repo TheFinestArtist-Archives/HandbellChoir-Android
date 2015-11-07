@@ -32,10 +32,13 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     TextView bellTv;
     @Bind(R.id.sound_tv)
     TextView soundTv;
+    @Bind(R.id.shake_tv)
+    TextView shakeTv;
 
     Instrument instrument = Instrument.DEFAULT;
     Note_Octave noteOctave = Note_Octave.DEFAULT;
     Sound sound = Sound.DEFAULT;
+    boolean shake = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
 
         bellTv.setText(instrument.getName() + " " + noteOctave.name());
         soundTv.setText(sound.getName());
+        shakeTv.setText(shake ? "ON" : "OFF");
         playBt.setSoundEffectsEnabled(false);
 
         API.setListener(this);
@@ -94,6 +98,31 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
                     public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
                         sound = Sound.fromOrdinal(i);
                         soundTv.setText(sound.getName());
+                        return true;
+                    }
+                })
+                .positiveText(R.string.choose)
+                .show();
+    }
+
+    @OnClick(R.id.shake_bt)
+    public void shakeOn() {
+        new MaterialDialog.Builder(MainActivity.this)
+                .title("Allow Shake")
+                .items(new String[]{"ON", "OFF"})
+                .itemsCallbackSingleChoice(shake ? 0 : 1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                        switch (i) {
+                            case 0:
+                                shake = true;
+                                shakeTv.setText("ON");
+                                break;
+                            case 1:
+                                shake = false;
+                                shakeTv.setText("OFF");
+                                break;
+                        }
                         return true;
                     }
                 })
