@@ -1,11 +1,12 @@
 package co.handbellchoir.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -14,14 +15,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.handbellchoir.R;
+import co.handbellchoir.audio.AudioPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.Note_Octave;
 import co.handbellchoir.enums.Volume;
+import co.handbellchoir.firebase.API;
+import co.handbellchoir.utils.AudioUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements API.OnPlayListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.play_bt)
+    ImageButton playBt;
     @Bind(R.id.bell_tv)
     TextView bellTv;
     @Bind(R.id.volume_tv)
@@ -40,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         bellTv.setText(instrument.getName() + " " + noteOctave.name());
         volumeTv.setText(volume.getName());
+        playBt.setSoundEffectsEnabled(false);
+
+        API.setListener(this);
     }
 
     @OnClick(R.id.bell_bt)
@@ -92,4 +101,25 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @OnClick(R.id.play_bt)
+    public void play() {
+        API.play(instrument, noteOctave);
+    }
+
+    @Override
+    public void onPlay(Instrument instrument, Note_Octave noteOctave) {
+        AudioPlayer.play(this, instrument, noteOctave);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            AudioUtil.adjustMusicVolume(getApplicationContext(), true, true);
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            AudioUtil.adjustMusicVolume(getApplicationContext(), false, true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

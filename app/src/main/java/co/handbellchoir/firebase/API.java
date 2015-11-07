@@ -1,10 +1,15 @@
 package co.handbellchoir.firebase;
 
+import android.support.annotation.NonNull;
+
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.orhanobut.logger.Logger;
+
+import co.handbellchoir.enums.Instrument;
+import co.handbellchoir.enums.Note_Octave;
 
 /**
  * Created by Leonardo on 11/7/15.
@@ -24,20 +29,64 @@ public class API {
         }
     }
 
-    public static void sendBell() {
-        getInstance().child("message").setValue("Do you have data? You'll love Firebase.");
+    public static void play(Instrument instrument, Note_Octave noteOctave) {
+        if (instrument == null || noteOctave == null)
+            return;
+
+        Firebase firebase = getInstance().child("play").push();
+        firebase.child("i").setValue(instrument.getFolderName());
+        firebase.child("n").setValue(noteOctave.name());
+        firebase.child("t").setValue(System.currentTimeMillis());
     }
 
-    public static void setListener() {
-        getInstance().child("message").addValueEventListener(new ValueEventListener() {
+    public static void setListener(@NonNull final OnPlayListener listener) {
+        getInstance().child("play").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Logger.e((String) snapshot.getValue());
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                try {
+                    String i = (String) dataSnapshot.child("i").getValue();
+                    String n = (String) dataSnapshot.child("n").getValue();
+                    long t = (Long) dataSnapshot.child("t").getValue();
+
+                    Instrument instrument = Instrument.fromName(i);
+                    Note_Octave noteOctave = Note_Octave.fromName(n);
+                    listener.onPlay(instrument, noteOctave);
+                } catch (Exception e) {
+                }
             }
 
             @Override
-            public void onCancelled(FirebaseError error) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                try {
+                    String i = (String) dataSnapshot.child("i").getValue();
+                    String n = (String) dataSnapshot.child("n").getValue();
+                    long t = (Long) dataSnapshot.child("t").getValue();
+
+                    Instrument instrument = Instrument.fromName(i);
+                    Note_Octave noteOctave = Note_Octave.fromName(n);
+                    listener.onPlay(instrument, noteOctave);
+                } catch (Exception e) {
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
+    }
+
+    public interface OnPlayListener {
+        void onPlay(Instrument instrument, Note_Octave noteOctave);
     }
 }

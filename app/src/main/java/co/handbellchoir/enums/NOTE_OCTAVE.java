@@ -1,5 +1,7 @@
 package co.handbellchoir.enums;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by Leonardo on 11/7/15.
  */
@@ -115,6 +117,15 @@ public enum Note_Octave {
 
     public String getFilename() {
         return filename;
+    }
+
+    @Nullable
+    public static Note_Octave fromName(String name) {
+        for (Note_Octave noteOctave : values())
+            if (noteOctave.name().equals(name))
+                return noteOctave;
+
+        return null;
     }
 
     public static Note_Octave fromOrdinal(int ordinal) {

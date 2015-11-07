@@ -1,11 +1,13 @@
 package co.handbellchoir.enums;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by Leonardo on 11/7/15.
  */
 public enum Instrument {
 
-    TINKLE_BELL("tinkel_bell", "Tinkle Bells"),
+    TINKLE_BELL("tinkle_bell", "Tinkle Bells"),
     TUBULAR_BELLS("tubular_bells", "Tubular Bells");
 
     public static Instrument DEFAULT = TINKLE_BELL;
@@ -24,6 +26,15 @@ public enum Instrument {
 
     public String getName() {
         return name;
+    }
+
+    @Nullable
+    public static Instrument fromName(String name) {
+        for (Instrument instrument : values())
+            if (instrument.getFolderName().equals(name))
+                return instrument;
+
+        return null;
     }
 
     public static Instrument fromOrdinal(int ordinal) {
