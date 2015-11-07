@@ -3,7 +3,7 @@ package co.handbellchoir.enums;
 /**
  * Created by Leonardo on 11/7/15.
  */
-public enum NOTE_OCTAVE {
+public enum Note_Octave {
 
     A0("A0.mp3"),
     A1("A1.mp3"),
@@ -105,14 +105,33 @@ public enum NOTE_OCTAVE {
     Gb6("Gb6.mp3"),
     Gb7("Gb7.mp3");
 
+    public static Note_Octave DEFAULT = C5;
+
     private String filename;
 
-    NOTE_OCTAVE(String filename) {
+    Note_Octave(String filename) {
         this.filename = filename;
     }
 
     public String getFilename() {
         return filename;
+    }
+
+    public static Note_Octave fromOrdinal(int ordinal) {
+        for (Note_Octave noteOctave : values())
+            if (ordinal == noteOctave.ordinal())
+                return noteOctave;
+
+        return DEFAULT;
+    }
+
+    public static String[] asStringList() {
+        Note_Octave[] noteOctaves = values();
+        String[] list = new String[noteOctaves.length];
+        for (int i = 0; i < noteOctaves.length; i++)
+            list[i] = noteOctaves[i].name();
+
+        return list;
     }
 
 }
