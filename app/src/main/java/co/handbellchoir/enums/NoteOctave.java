@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 /**
  * Created by Leonardo on 11/7/15.
  */
-public enum Note_Octave {
+public enum NoteOctave {
 
     A0("A0.mp3"),
     A1("A1.mp3"),
@@ -107,11 +107,11 @@ public enum Note_Octave {
     Gb6("Gb6.mp3"),
     Gb7("Gb7.mp3");
 
-    public static Note_Octave DEFAULT = C5;
+    public static NoteOctave DEFAULT = C5;
 
     private String filename;
 
-    Note_Octave(String filename) {
+    NoteOctave(String filename) {
         this.filename = filename;
     }
 
@@ -120,16 +120,16 @@ public enum Note_Octave {
     }
 
     @Nullable
-    public static Note_Octave fromName(String name) {
-        for (Note_Octave noteOctave : values())
+    public static NoteOctave fromName(String name) {
+        for (NoteOctave noteOctave : values())
             if (noteOctave.name().equals(name))
                 return noteOctave;
 
         return null;
     }
 
-    public static Note_Octave fromOrdinal(int ordinal) {
-        for (Note_Octave noteOctave : values())
+    public static NoteOctave fromOrdinal(int ordinal) {
+        for (NoteOctave noteOctave : values())
             if (ordinal == noteOctave.ordinal())
                 return noteOctave;
 
@@ -137,7 +137,7 @@ public enum Note_Octave {
     }
 
     public static String[] asStringList() {
-        Note_Octave[] noteOctaves = values();
+        NoteOctave[] noteOctaves = values();
         String[] list = new String[noteOctaves.length];
         for (int i = 0; i < noteOctaves.length; i++)
             list[i] = noteOctaves[i].name();

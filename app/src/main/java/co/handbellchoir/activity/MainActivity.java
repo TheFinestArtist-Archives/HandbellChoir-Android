@@ -2,10 +2,9 @@ package co.handbellchoir.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,12 +16,13 @@ import butterknife.OnClick;
 import co.handbellchoir.R;
 import co.handbellchoir.audio.AudioPlayer;
 import co.handbellchoir.enums.Instrument;
-import co.handbellchoir.enums.Note_Octave;
+import co.handbellchoir.enums.NoteOctave;
+import co.handbellchoir.enums.Shake;
 import co.handbellchoir.enums.Sound;
 import co.handbellchoir.firebase.API;
 import co.handbellchoir.utils.AudioUtil;
 
-public class MainActivity extends AppCompatActivity implements API.OnPlayListener {
+public class MainActivity extends SensorActivity implements API.OnPlayListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -36,9 +36,8 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     TextView shakeTv;
 
     Instrument instrument = Instrument.DEFAULT;
-    Note_Octave noteOctave = Note_Octave.DEFAULT;
+    NoteOctave noteOctave = NoteOctave.DEFAULT;
     Sound sound = Sound.DEFAULT;
-    boolean shake = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
 
         bellTv.setText(instrument.getName() + " " + noteOctave.name());
         soundTv.setText(sound.getName());
-        shakeTv.setText(shake ? "ON" : "OFF");
+        shakeTv.setText(shake.name());
         playBt.setSoundEffectsEnabled(false);
 
         API.setListener(this);
@@ -68,12 +67,12 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
 
                         new MaterialDialog.Builder(MainActivity.this)
                                 .title("Select Note & Octave")
-                                .items(Note_Octave.asStringList())
+                                .items(NoteOctave.asStringList())
                                 .itemsCallbackSingleChoice(noteOctave.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
                                     @Override
                                     public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
                                         instrument = Instrument.fromOrdinal(selectedInstrument[0]);
-                                        noteOctave = Note_Octave.fromOrdinal(which);
+                                        noteOctave = NoteOctave.fromOrdinal(which);
                                         bellTv.setText(instrument.getName() + " " + noteOctave.name());
                                         return true;
                                     }
@@ -108,21 +107,13 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     @OnClick(R.id.shake_bt)
     public void shakeOn() {
         new MaterialDialog.Builder(MainActivity.this)
-                .title("Allow Shake")
-                .items(new String[]{"ON", "OFF"})
-                .itemsCallbackSingleChoice(shake ? 0 : 1, new MaterialDialog.ListCallbackSingleChoice() {
+                .title("Select Shake")
+                .items(Shake.asStringList())
+                .itemsCallbackSingleChoice(shake.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-                        switch (i) {
-                            case 0:
-                                shake = true;
-                                shakeTv.setText("ON");
-                                break;
-                            case 1:
-                                shake = false;
-                                shakeTv.setText("OFF");
-                                break;
-                        }
+                        shake = Shake.fromOrdinal(i);
+                        shakeTv.setText(shake.name());
                         return true;
                     }
                 })
@@ -145,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     }
 
     @Override
-    public void onPlay(Instrument instrument, Note_Octave noteOctave) {
+    public void onPlay(Instrument instrument, NoteOctave noteOctave) {
         switch (sound) {
             case SILENT:
             case MY_SELF:

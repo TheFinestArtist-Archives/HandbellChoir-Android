@@ -7,14 +7,14 @@ import android.media.MediaPlayer;
 import java.io.IOException;
 
 import co.handbellchoir.enums.Instrument;
-import co.handbellchoir.enums.Note_Octave;
+import co.handbellchoir.enums.NoteOctave;
 
 /**
  * Created by Leonardo on 11/7/15.
  */
 public class AudioPlayer {
 
-    public static void play(Context context, Instrument instrument, Note_Octave noteOctave) {
+    public static void play(Context context, Instrument instrument, NoteOctave noteOctave) {
         if (instrument == null || noteOctave == null)
             return;
 

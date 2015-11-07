@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import co.handbellchoir.enums.Instrument;
-import co.handbellchoir.enums.Note_Octave;
+import co.handbellchoir.enums.NoteOctave;
 
 /**
  * Created by Leonardo on 11/7/15.
@@ -31,7 +31,7 @@ public class API {
         }
     }
 
-    public static void play(Instrument instrument, Note_Octave noteOctave) {
+    public static void play(Instrument instrument, NoteOctave noteOctave) {
         if (instrument == null || noteOctave == null)
             return;
 
@@ -52,7 +52,7 @@ public class API {
                     long t = (Long) dataSnapshot.child("t").getValue();
 
                     Instrument instrument = Instrument.fromName(i);
-                    Note_Octave noteOctave = Note_Octave.fromName(n);
+                    NoteOctave noteOctave = NoteOctave.fromName(n);
                     listener.onPlay(instrument, noteOctave);
                 } catch (Exception e) {
                 }
@@ -80,6 +80,6 @@ public class API {
     }
 
     public interface OnPlayListener {
-        void onPlay(Instrument instrument, Note_Octave noteOctave);
+        void onPlay(Instrument instrument, NoteOctave noteOctave);
     }
 }

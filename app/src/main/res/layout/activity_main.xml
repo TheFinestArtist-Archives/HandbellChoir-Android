@@ -110,7 +110,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginLeft="16dp"
-                    android:background="@drawable/ic_volume" />
+                    android:background="@drawable/ic_sound" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,7 +157,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginLeft="16dp"
-                    android:background="@drawable/ic_screen_rotation" />
+                    android:background="@drawable/ic_shake" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
