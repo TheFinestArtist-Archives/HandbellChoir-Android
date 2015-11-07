@@ -6,7 +6,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.Note_Octave;
@@ -33,14 +32,14 @@ public class API {
         if (instrument == null || noteOctave == null)
             return;
 
-        Firebase firebase = getInstance().child("play").push();
+        Firebase firebase = getInstance().child("plays").push();
         firebase.child("i").setValue(instrument.getFolderName());
         firebase.child("n").setValue(noteOctave.name());
         firebase.child("t").setValue(System.currentTimeMillis());
     }
 
     public static void setListener(@NonNull final OnPlayListener listener) {
-        getInstance().child("play").addChildEventListener(new ChildEventListener() {
+        getInstance().child("plays").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 try {
