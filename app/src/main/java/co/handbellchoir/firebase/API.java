@@ -7,6 +7,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.Note_Octave;
 
@@ -32,10 +35,11 @@ public class API {
         if (instrument == null || noteOctave == null)
             return;
 
-        Firebase firebase = getInstance().child("plays").push();
-        firebase.child("i").setValue(instrument.getFolderName());
-        firebase.child("n").setValue(noteOctave.name());
-        firebase.child("t").setValue(System.currentTimeMillis());
+        Map<String, Object> map = new HashMap<>();
+        map.put("i", instrument.getFolderName());
+        map.put("n", noteOctave.name());
+        map.put("t", System.currentTimeMillis());
+        getInstance().child("plays").push().setValue(map);
     }
 
     public static void setListener(@NonNull final OnPlayListener listener) {
@@ -56,16 +60,6 @@ public class API {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                try {
-                    String i = (String) dataSnapshot.child("i").getValue();
-                    String n = (String) dataSnapshot.child("n").getValue();
-                    long t = (Long) dataSnapshot.child("t").getValue();
-
-                    Instrument instrument = Instrument.fromName(i);
-                    Note_Octave noteOctave = Note_Octave.fromName(n);
-                    listener.onPlay(instrument, noteOctave);
-                } catch (Exception e) {
-                }
             }
 
             @Override
