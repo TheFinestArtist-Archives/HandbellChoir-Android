@@ -18,7 +18,7 @@ import co.handbellchoir.R;
 import co.handbellchoir.audio.AudioPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.Note_Octave;
-import co.handbellchoir.enums.Volume;
+import co.handbellchoir.enums.Sound;
 import co.handbellchoir.firebase.API;
 import co.handbellchoir.utils.AudioUtil;
 
@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     ImageButton playBt;
     @Bind(R.id.bell_tv)
     TextView bellTv;
-    @Bind(R.id.volume_tv)
-    TextView volumeTv;
+    @Bind(R.id.sound_tv)
+    TextView soundTv;
 
     Instrument instrument = Instrument.DEFAULT;
     Note_Octave noteOctave = Note_Octave.DEFAULT;
-    Volume volume = Volume.DEFAULT;
+    Sound sound = Sound.DEFAULT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
         setSupportActionBar(toolbar);
 
         bellTv.setText(instrument.getName() + " " + noteOctave.name());
-        volumeTv.setText(volume.getName());
+        soundTv.setText(sound.getName());
         playBt.setSoundEffectsEnabled(false);
 
         API.setListener(this);
@@ -84,16 +84,16 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
                 .show();
     }
 
-    @OnClick(R.id.volume_bt)
-    public void selectVolume() {
+    @OnClick(R.id.sound_bt)
+    public void selectSound() {
         new MaterialDialog.Builder(MainActivity.this)
-                .title("Select Volume")
-                .items(Volume.asStringList())
-                .itemsCallbackSingleChoice(volume.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
+                .title("Select Sound")
+                .items(Sound.asStringList())
+                .itemsCallbackSingleChoice(sound.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-                        volume = Volume.fromOrdinal(i);
-                        volumeTv.setText(volume.getName());
+                        sound = Sound.fromOrdinal(i);
+                        soundTv.setText(sound.getName());
                         return true;
                     }
                 })
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     @OnClick(R.id.play_bt)
     public void play() {
         API.play(instrument, noteOctave);
-        switch (volume) {
+        switch (sound) {
             case SILENT:
                 break;
             case MY_SELF:
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
 
     @Override
     public void onPlay(Instrument instrument, Note_Octave noteOctave) {
-        switch (volume) {
+        switch (sound) {
             case SILENT:
             case MY_SELF:
                 break;

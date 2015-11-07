@@ -98,7 +98,7 @@
                 android:background="@color/divider" />
 
             <LinearLayout
-                android:id="@+id/volume_bt"
+                android:id="@+id/sound_bt"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/selector"
@@ -120,12 +120,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/volume_tv"
+                        android:id="@+id/sound_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
                         android:includeFontPadding="false"
-                        android:text="VOLUME"
                         android:textColor="?android:attr/textColorPrimary"
                         android:textSize="16dp" />
 
@@ -133,7 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
-                        android:text="VOLUME"
+                        android:text="SOUND"
                         android:textColor="?android:attr/textColorSecondary"
                         android:textSize="10dp" />
                 </LinearLayout>
