@@ -104,11 +104,27 @@ public class MainActivity extends AppCompatActivity implements API.OnPlayListene
     @OnClick(R.id.play_bt)
     public void play() {
         API.play(instrument, noteOctave);
+        switch (volume) {
+            case SILENT:
+                break;
+            case MY_SELF:
+                AudioPlayer.play(this, instrument, noteOctave);
+                break;
+            case ALL:
+                break;
+        }
     }
 
     @Override
     public void onPlay(Instrument instrument, Note_Octave noteOctave) {
-        AudioPlayer.play(this, instrument, noteOctave);
+        switch (volume) {
+            case SILENT:
+            case MY_SELF:
+                break;
+            case ALL:
+                AudioPlayer.play(this, instrument, noteOctave);
+                break;
+        }
     }
 
     @Override
