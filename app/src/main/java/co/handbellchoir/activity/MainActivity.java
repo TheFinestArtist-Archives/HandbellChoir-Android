@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -152,6 +153,7 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
 
     @Override
     public void onPlay(Instrument instrument, NoteOctave noteOctave) {
+        Logger.e("onPlay: " + instrument.getName() + ", NoteOctave: " + noteOctave.name());
         switch (sound) {
             case SILENT:
             case MY_SELF:
