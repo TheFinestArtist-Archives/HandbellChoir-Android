@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.client.Firebase;
-import com.orhanobut.logger.Logger;
 
 import co.handbellchoir.enums.Shake;
 import co.handbellchoir.events.OnShaked;
@@ -55,7 +54,7 @@ public class SensorActivity extends AppCompatActivity implements OrientationTrac
     @Override
     public void onOrientationChanged(float azimuth, float pitch, float roll) {
         if (pitch != Float.MAX_VALUE) {
-            Logger.d("Last: " + this.pitch + ", Current: " + pitch);
+//            Logger.d("Last: " + this.pitch + ", Current: " + pitch);
             if ((this.status == STATUS.MIDDLE
                     && (getStatusFromPitch(pitch) == STATUS.DOWN || getStatusFromPitch(pitch) == STATUS.UP))
                     || this.status == STATUS.DOWN && getStatusFromPitch(pitch) == STATUS.UP

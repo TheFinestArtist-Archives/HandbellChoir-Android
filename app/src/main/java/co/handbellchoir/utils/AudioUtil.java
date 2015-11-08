@@ -22,13 +22,11 @@ public class AudioUtil {
         }
     }
 
-
     public static void adjustMusicVolume(Context context, boolean up, boolean showInterface) {
         int direction = up ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER;
         int flag = AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE | (showInterface ? AudioManager.FLAG_SHOW_UI : 0);
         getInstance(context).adjustStreamVolume(AudioManager.STREAM_MUSIC, direction, flag);
     }
-
 
     public static void playKeyClickSound(Context context, int volume) {
         if (volume == 0)

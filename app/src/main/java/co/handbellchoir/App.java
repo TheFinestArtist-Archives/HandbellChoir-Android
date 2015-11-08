@@ -6,6 +6,8 @@ import com.firebase.client.Firebase;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import co.handbellchoir.audio.MidiPlayer;
+
 /**
  * Created by Leonardo on 11/7/15.
  */
@@ -14,7 +16,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Firebase.setAndroidContext(this);
-
+        MidiPlayer.load(this);
 
         if (BuildConfig.DEBUG) {
             Logger.init(getString(R.string.app_name))

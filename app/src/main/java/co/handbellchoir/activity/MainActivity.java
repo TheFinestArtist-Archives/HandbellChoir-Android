@@ -9,13 +9,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.handbellchoir.R;
-import co.handbellchoir.audio.AudioPlayer;
+import co.handbellchoir.audio.MidiPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.NoteOctave;
 import co.handbellchoir.enums.Shake;
@@ -144,7 +143,7 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
             case SILENT:
                 break;
             case MY_SELF:
-                AudioPlayer.play(this, instrument, noteOctave);
+                MidiPlayer.play(this, instrument, noteOctave);
                 break;
             case ALL:
                 break;
@@ -153,13 +152,13 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
 
     @Override
     public void onPlay(Instrument instrument, NoteOctave noteOctave) {
-        Logger.e("onPlay: " + instrument.getName() + ", NoteOctave: " + noteOctave.name());
+//        Logger.e("onPlay: " + instrument.getName() + ", NoteOctave: " + noteOctave.name());
         switch (sound) {
             case SILENT:
             case MY_SELF:
                 break;
             case ALL:
-                AudioPlayer.play(this, instrument, noteOctave);
+                MidiPlayer.play(this, instrument, noteOctave);
                 break;
         }
     }
