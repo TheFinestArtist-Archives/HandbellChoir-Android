@@ -3,6 +3,7 @@ package co.handbellchoir.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.firebase.client.Firebase;
 import com.orhanobut.logger.Logger;
 
 import co.handbellchoir.enums.Shake;
@@ -37,6 +38,7 @@ public class SensorActivity extends AppCompatActivity implements OrientationTrac
     @Override
     protected void onStart() {
         super.onStart();
+        Firebase.goOnline();
         pitch = Float.MAX_VALUE;
         orientationTracker.start();
         EventBus.getDefault().register(this);
@@ -46,18 +48,19 @@ public class SensorActivity extends AppCompatActivity implements OrientationTrac
     protected void onStop() {
         EventBus.getDefault().unregister(this);
         orientationTracker.stop();
+        Firebase.goOffline();
         super.onStop();
     }
 
     @Override
     public void onOrientationChanged(float azimuth, float pitch, float roll) {
         if (pitch != Float.MAX_VALUE) {
+            Logger.d("Last: " + this.pitch + ", Current: " + pitch);
             if ((this.status == STATUS.MIDDLE
                     && (getStatusFromPitch(pitch) == STATUS.DOWN || getStatusFromPitch(pitch) == STATUS.UP))
                     || this.status == STATUS.DOWN && getStatusFromPitch(pitch) == STATUS.UP
                     || this.status == STATUS.UP && getStatusFromPitch(pitch) == STATUS.DOWN) {
                 EventBus.getDefault().post(new OnShaked());
-                Logger.e("Shaked");
             }
         }
 

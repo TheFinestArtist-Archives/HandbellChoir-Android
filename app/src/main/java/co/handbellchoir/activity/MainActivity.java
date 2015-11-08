@@ -128,7 +128,13 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
     }
 
     public void onEvent(OnShaked event) {
-        playSelf();
+        switch (shake){
+            case ON:
+                playSelf();
+                break;
+            case OFF:
+                break;
+        }
     }
 
     private void playSelf() {
