@@ -17,13 +17,14 @@ import co.handbellchoir.R;
 import co.handbellchoir.audio.MidiPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.NoteOctave;
+import co.handbellchoir.enums.Score;
 import co.handbellchoir.enums.Shake;
 import co.handbellchoir.enums.Sound;
 import co.handbellchoir.events.OnShaked;
 import co.handbellchoir.firebase.API;
 import co.handbellchoir.utils.AudioUtil;
 
-public class MainActivity extends SensorActivity implements API.OnPlayListener {
+public class MainActivity extends HeroActivity implements API.OnPlayListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -129,6 +130,7 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
     @OnClick(R.id.play_bt)
     public void playClicked() {
         playSelf();
+        showEffect(Score.PERFECT);
     }
 
     public void onEvent(OnShaked event) {
