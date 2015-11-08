@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
  */
 public enum Instrument {
 
+    ELECTRIC_GRAND_PIANO("electric_grand_piano", "Electric Grand Piano"),
+    OVERDRIVEN_GUITAR("overdriven_guitar", "Overdriven_Guitar"),
+    PAD_1_NEW_AGE("pad_1_new_age", "Pad 1 New Age"),
     TINKLE_BELL("tinkle_bell", "Tinkle Bells"),
     TUBULAR_BELLS("tubular_bells", "Tubular Bells");
 

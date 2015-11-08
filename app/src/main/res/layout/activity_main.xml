@@ -71,7 +71,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_marginLeft="16dp"
-                            android:background="@drawable/ic_bell" />
+                            android:background="@drawable/ic_instrument" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -274,10 +274,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:drawableTop="@drawable/ic_ring"
+                android:drawablePadding="-8dp"
                 android:text="PLAY"
-                android:textColor="@color/primary"
-                android:textSize="46dp"
-                android:textStyle="bold" />
+                android:textColor="@color/primary_dark"
+                android:textSize="14dp" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

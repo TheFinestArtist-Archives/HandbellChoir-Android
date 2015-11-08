@@ -4,9 +4,9 @@ package co.handbellchoir.enums;
  * Created by Leonardo on 11/7/15.
  */
 public enum Shake {
-    ON, OFF;
+    On, Off;
 
-    public static Shake DEFAULT = ON;
+    public static Shake DEFAULT = On;
 
     public static Shake fromOrdinal(int ordinal) {
         for (Shake shake : values())

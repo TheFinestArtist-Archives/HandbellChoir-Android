@@ -7,6 +7,7 @@ import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import co.handbellchoir.audio.MidiPlayer;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by Leonardo on 11/7/15.
@@ -17,6 +18,11 @@ public class App extends Application {
         super.onCreate();
         Firebase.setAndroidContext(this);
         MidiPlayer.load(this);
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("font/Roboto-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
 
         if (BuildConfig.DEBUG) {
             Logger.init(getString(R.string.app_name))

@@ -133,10 +133,10 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
 
     public void onEvent(OnShaked event) {
         switch (shake) {
-            case ON:
+            case On:
                 playSelf();
                 break;
-            case OFF:
+            case Off:
                 break;
         }
     }
