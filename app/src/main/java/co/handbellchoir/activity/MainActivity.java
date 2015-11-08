@@ -19,6 +19,7 @@ import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.NoteOctave;
 import co.handbellchoir.enums.Shake;
 import co.handbellchoir.enums.Sound;
+import co.handbellchoir.events.OnShaked;
 import co.handbellchoir.firebase.API;
 import co.handbellchoir.utils.AudioUtil;
 
@@ -122,7 +123,15 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
     }
 
     @OnClick(R.id.play_bt)
-    public void play() {
+    public void playClicked() {
+        playSelf();
+    }
+
+    public void onEvent(OnShaked event) {
+        playSelf();
+    }
+
+    private void playSelf() {
         API.play(instrument, noteOctave);
         switch (sound) {
             case SILENT:

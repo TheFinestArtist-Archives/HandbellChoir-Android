@@ -10,7 +10,7 @@ public enum Instrument {
     TINKLE_BELL("tinkle_bell", "Tinkle Bells"),
     TUBULAR_BELLS("tubular_bells", "Tubular Bells");
 
-    public static Instrument DEFAULT = TINKLE_BELL;
+    public static Instrument DEFAULT = TUBULAR_BELLS;
 
     private String folderName;
     private String name;
