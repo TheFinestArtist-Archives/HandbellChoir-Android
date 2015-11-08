@@ -9,7 +9,7 @@ public enum Sound {
     MY_SELF("My Self"),
     ALL("All");
 
-    public static Sound DEFAULT = ALL;
+    public static Sound DEFAULT = SILENT;
 
     private String name;
 

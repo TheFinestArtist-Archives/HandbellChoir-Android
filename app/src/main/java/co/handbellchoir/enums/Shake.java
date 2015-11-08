@@ -6,7 +6,7 @@ package co.handbellchoir.enums;
 public enum Shake {
     On, Off;
 
-    public static Shake DEFAULT = On;
+    public static Shake DEFAULT = Off;
 
     public static Shake fromOrdinal(int ordinal) {
         for (Shake shake : values())

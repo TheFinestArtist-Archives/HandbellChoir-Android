@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.handbellchoir.R;
+import co.handbellchoir.adapter.NoteOctaveAdapter;
 import co.handbellchoir.audio.MidiPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.NoteOctave;
@@ -57,6 +58,19 @@ public class MainActivity extends HeroActivity implements API.OnPlayListener {
         playBt.setSoundEffectsEnabled(false);
 
         API.setListener(this);
+//        API.findEmptyNoteOctave(new API.OnFoundEmptyNoteOctaveListener() {
+//            @Override
+//            public void onFound(NoteOctave noteOctave) {
+//                MainActivity.this.noteOctave = noteOctave;
+//                API.assignNoteOctave(noteOctave, true);
+//            }
+//        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        API.assignNoteOctave(noteOctave, false);
     }
 
     @OnClick(R.id.instrument_bt)
@@ -106,6 +120,18 @@ public class MainActivity extends HeroActivity implements API.OnPlayListener {
                         return true;
                     }
                 })
+//                .adapter(new NoteOctaveAdapter(this),
+//                        new MaterialDialog.ListCallback() {
+//                            @Override
+//                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+//                                API.assignNoteOctave(noteOctave, false);
+//
+//                                noteOctave = NoteOctave.fromOrdinal(which);
+//                                noteOctaveTv.setText(noteOctave.name());
+//
+//                                API.assignNoteOctave(noteOctave, true);
+//                            }
+//                        })
                 .positiveText(getString(R.string.choose))
                 .show();
     }
