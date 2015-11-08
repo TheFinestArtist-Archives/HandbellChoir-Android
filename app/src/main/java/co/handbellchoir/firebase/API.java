@@ -37,7 +37,7 @@ public class API {
             return;
 
         Map<String, Object> map = new HashMap<>();
-        map.put("i", instrument.getFolderName());
+//        map.put("i", instrument.getFolderName());
         map.put("n", noteOctave.name());
         map.put("t", System.currentTimeMillis());
         getInstance().child("plays").push().setValue(map);
@@ -51,14 +51,14 @@ public class API {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         try {
-                            String i = (String) dataSnapshot.child("i").getValue();
+//                            String i = (String) dataSnapshot.child("i").getValue();
                             String n = (String) dataSnapshot.child("n").getValue();
                             long t = (Long) dataSnapshot.child("t").getValue();
 
-                            Instrument instrument = Instrument.fromName(i);
+//                            Instrument instrument = Instrument.fromName(i);
                             NoteOctave noteOctave = NoteOctave.fromName(n);
                             if (t > timestamp)
-                                listener.onPlay(instrument, noteOctave);
+                                listener.onPlay(null, noteOctave);
                         } catch (Exception e) {
                         }
                     }

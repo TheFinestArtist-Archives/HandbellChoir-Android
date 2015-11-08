@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,11 +28,13 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.play_bt)
-    ImageButton playBt;
-    @Bind(R.id.bell_tv)
-    TextView bellTv;
+    Button playBt;
+    @Bind(R.id.instrument_tv)
+    TextView instrumentTv;
     @Bind(R.id.sound_tv)
     TextView soundTv;
+    @Bind(R.id.note_octave_tv)
+    TextView noteOctaveTv;
     @Bind(R.id.shake_tv)
     TextView shakeTv;
 
@@ -47,40 +49,25 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        bellTv.setText(instrument.getName() + " " + noteOctave.name());
+        instrumentTv.setText(instrument.getName());
         soundTv.setText(sound.getName());
+        noteOctaveTv.setText(noteOctave.name());
         shakeTv.setText(shake.name());
         playBt.setSoundEffectsEnabled(false);
 
         API.setListener(this);
     }
 
-    @OnClick(R.id.bell_bt)
-    public void selectBell() {
-        final int[] selectedInstrument = new int[1];
+    @OnClick(R.id.instrument_bt)
+    public void selectInstrument() {
         new MaterialDialog.Builder(MainActivity.this)
                 .title("Select Instrument")
                 .items(Instrument.asStringList())
                 .itemsCallbackSingleChoice(instrument.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
-                        selectedInstrument[0] = which;
-
-                        new MaterialDialog.Builder(MainActivity.this)
-                                .title("Select Note & Octave")
-                                .items(NoteOctave.asStringList())
-                                .itemsCallbackSingleChoice(noteOctave.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
-                                        instrument = Instrument.fromOrdinal(selectedInstrument[0]);
-                                        noteOctave = NoteOctave.fromOrdinal(which);
-                                        bellTv.setText(instrument.getName() + " " + noteOctave.name());
-                                        return true;
-                                    }
-                                })
-                                .positiveText(getString(R.string.choose))
-                                .show();
-
+                        instrument = Instrument.fromOrdinal(which);
+                        instrumentTv.setText(instrument.getName());
                         return true;
                     }
                 })
@@ -102,6 +89,23 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
                     }
                 })
                 .positiveText(R.string.choose)
+                .show();
+    }
+
+    @OnClick(R.id.note_octave_bt)
+    public void selectNoteOctave() {
+        new MaterialDialog.Builder(MainActivity.this)
+                .title("Select Note & Octave")
+                .items(NoteOctave.asStringList())
+                .itemsCallbackSingleChoice(noteOctave.ordinal(), new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                        noteOctave = NoteOctave.fromOrdinal(which);
+                        noteOctaveTv.setText(noteOctave.name());
+                        return true;
+                    }
+                })
+                .positiveText(getString(R.string.choose))
                 .show();
     }
 
@@ -128,7 +132,7 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
     }
 
     public void onEvent(OnShaked event) {
-        switch (shake){
+        switch (shake) {
             case ON:
                 playSelf();
                 break;
@@ -152,6 +156,8 @@ public class MainActivity extends SensorActivity implements API.OnPlayListener {
 
     @Override
     public void onPlay(Instrument instrument, NoteOctave noteOctave) {
+        if (instrument == null)
+            instrument = this.instrument;
 //        Logger.e("onPlay: " + instrument.getName() + ", NoteOctave: " + noteOctave.name());
         switch (sound) {
             case SILENT:
