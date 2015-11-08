@@ -14,7 +14,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.handbellchoir.R;
-import co.handbellchoir.adapter.NoteOctaveAdapter;
 import co.handbellchoir.audio.MidiPlayer;
 import co.handbellchoir.enums.Instrument;
 import co.handbellchoir.enums.NoteOctave;
